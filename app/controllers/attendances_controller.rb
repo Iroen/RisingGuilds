@@ -28,7 +28,9 @@ class AttendancesController < ApplicationController
   def new
     @attendance = Attendance.new
     @attendance.raid_id = params[:raid_id]
-
+    
+    @characters = current_user.characters
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @attendance }
@@ -38,29 +40,61 @@ class AttendancesController < ApplicationController
   # GET /attendances/1/edit
   def edit
     @attendance = Attendance.find(params[:id])
+    
+    @characters = @attendance.character.user.characters
   end
 
   # POST /attendances
   # POST /attendances.xml
   def create
+    unless params[:character_name].blank?
+      char = Character.find_by_name(params[:character_name])
+      if char.nil?
+        flash[:error] = t("raids.char_not_found")
+        redirect_to guild_raid_path(@attendance.raid.guild, @attendance.raid)
+        return true
+      else
+        params[:attendance][:character_id] = char.id
+      end
+    end
+
     @attendance = Attendance.new(params[:attendance])
+    
     if @attendance.raid.autoconfirm && @attendance.status == 2 && check_limits(@attendance) && check_ail(@attendance)
       @attendance.status = 3
     end
+
     respond_to do |format|
-      unless @attendance.raid.closed? || @attendance.raid.users.include?(current_user)
+      unless @attendance.raid.closed? || !(@attendance.character.user.nil? || !@attendance.raid.users.include?(@attendance.character.user))
         if @attendance.save
-          format.html { render :text => t(:created, :item => 'Attendance') }
-          format.xml  { render :xml => @attendance, :status => :created, :location => @attendance }
+          if params[:character_name].blank?
+            format.html { render :text => t(:created, :item => 'Attendance') }
+            format.xml  { render :xml => @attendance, :status => :created, :location => @attendance }
+          else
+            flash[:notice] = t(:created, :item => 'Attendance')
+            format.html { redirect_to guild_raid_path(@attendance.raid.guild, @attendance.raid) }
+          end
         else
-          format.html { render :text => @attendance.errors.full_messages.join("\n"), :status => :error }
-          format.xml  { render :xml => @attendance.errors, :status => :unprocessable_entity }
+          if params[:character_name].blank?
+            format.html { render :text => @attendance.errors.full_messages.join("\n"), :status => :error }
+            format.xml  { render :xml => @attendance.errors, :status => :unprocessable_entity }
+          else
+            flash[:error] = @attendance.errors.full_messages.join("\n")
+            format.html { redirect_to guild_raid_path(@attendance.raid.guild, @attendance.raid) }
+          end
         end
       else
-        message = ""
-        message = t("raids.closed") if @attendance.raid.closed?
-        message = t("raids.already_attend") if @attendance.raid.users.include?(current_user)
-        format.html { render :text => message, :status => :error }
+        flash[:error] = ""
+        if @attendance.raid.closed?
+          flash[:error] = t("raids.closed")
+        elsif @attendance.raid.users.include?(@attendance.character.user)
+          flash[:error] = t("raids.already_attend")
+        end
+        if params[:character_name].blank?
+          format.html { render :text => flash[:error], :status => :error }
+        else
+          format.html { redirect_to guild_raid_path(@attendance.raid.guild, @attendance.raid) }
+        end
       end
     end
   end

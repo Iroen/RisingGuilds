@@ -1,6 +1,6 @@
 # Put all your default configatron settings here.
 
-configatron.version = 'v0.8.1 beta'
+configatron.version = 'v0.9.0 beta'
 
 configatron.guilds.roles = ["member", "raidleader", "officer", "leader"]
 
@@ -16,6 +16,10 @@ configatron.arsenal.url.guild.name = 'gn='
 configatron.wowarmory.url.base = 'http://eu.wowarmory.com/'
 configatron.wowarmory.url.item.info = 'item-info.xml'
 configatron.wowarmory.url.item.itemid = 'i='
+
+configatron.wowhead.url.base = 'http://www.wowhead.com/'
+configatron.wowhead.url.item.prefix = 'item='
+configatron.wowhead.url.item.suffix = '&xml'
 
 configatron.onlinelist.url = 'http://www.rising-gods.de/components/com_onlinelist/views/onlinelist/ajax_request.php?server='
 

@@ -23,6 +23,8 @@ gem 'nokogiri'
 
 gem 'rmagick'
 
+gem 'memcache-client'
+
 group :development, :test do
   gem 'mocha'
   gem 'rspec-rails', '>= 2.0.0.beta.19'
@@ -38,5 +40,6 @@ group :development, :test do
   gem 'spork'
   gem 'rcov'
   gem 'cover_me', '>= 1.0.0.pre2', :require => false
+  gem "rails-erd"
 end
 

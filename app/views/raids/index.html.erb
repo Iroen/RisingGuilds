@@ -10,6 +10,7 @@
 	</ul>
 </div>
 
+<% cache (["raid_index", current_user.id, if params[:month] then params[:month] else @date.strftime("%Y/%m") end, @raids]) do %>
 <% unless @raids.nil? || @raids.empty? %>
 <div id="calendar">
 	<h2 id="month">

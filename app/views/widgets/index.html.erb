@@ -1,4 +1,3 @@
-<% cache do %>
 <script type="text/javascript" src="/javascripts/jquery.beautyOfCode-min.js"></script>
 
 <script type="text/javascript">
@@ -16,20 +15,22 @@
 	});
 </script>
 
+<p style="font-size:12px"><%= t('widgets.wio_text1') %></p>
+<p style="font-size:12px"><%= t('widgets.wio_text2') %></p>
+
 <div id="widgets">
-	<h3><a>"Who Is Online"-Widget</a></h3>
+	<h3><a><%= t('widgets.whoisonline') %></a></h3>
 	<div>
 		<%= render :partial => "whoisonline" %>
 	</div>
 
-  <h3><a>Characters-Widget</a></h3>
+  <h3><a><%= t('widgets.characters') %></a></h3>
 	<div>
 		<%= render :partial => "characters"%>
 	</div>
 	
-	<h3><a>Guild-Widget</a></h3>
+	<h3><a><%= t('widgets.guild') %></a></h3>
 	<div>
 		<%= render :partial => "guild"%>
 	</div>
 </div>
-<% end %>
