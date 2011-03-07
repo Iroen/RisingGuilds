@@ -3,15 +3,11 @@ module Arsenal
   	attr_reader :trees,:active,:group,:icon,:prim
 
   	def initialize(elem)
-  		@trees = []
-  		@trees[1] = elem[:treeOne].to_i
-  		@trees[2] = elem[:treeTwo].to_i
-  		@trees[3] = elem[:treeThree].to_i
-
-      @active = elem[:active].nil? ? false : true
-      @group  = elem[:group].to_i
-      @icon   = elem[:icon]
-      @prim   = elem[:prim]
+  		@trees = [elem[:treeOne].to_i, elem[:treeTwo].to_i ,elem[:treeThree].to_i]
+                @active = elem[:active].nil? ? false : true
+                @group  = elem[:group].to_i
+                @icon   = elem[:icon]
+                @prim   = elem[:prim]
   	end
   end
 
@@ -21,11 +17,11 @@ module Arsenal
   	alias_method :to_i, :value
 
   	def initialize(elem)
-  	  @id     = elem[:id]
-  		@key 		= elem[:key]
+  		@id     = elem[:id]
+  		@key 	= elem[:key]
   		@name 	= elem[:name]
   		@value 	= elem[:value].to_i
-  		@max 		= elem[:max].to_i
+  		@max 	= elem[:max].to_i
   	end
   end
 
@@ -33,14 +29,14 @@ module Arsenal
   	attr_reader :id, :icon, :level, :slot
 
   	def initialize(elem)
-  		@id 				= elem[:id].to_i
-  		@icon 	    = elem[:icon]
-  		@slot       = elem[:slot].to_i
+  		@id	= elem[:id].to_i
+  		@icon 	= elem[:icon]
+  		@slot   = elem[:slot].to_i
   	end
   	
   	def level=(level)
   	  @level = level
-	  end
+	end
   end
   
   def self.get_character_xml(character)
