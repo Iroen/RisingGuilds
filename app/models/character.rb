@@ -32,10 +32,10 @@ class Character < ActiveRecord::Base
     attributes['achivementpoints']  = (xml%'characterInfo'%'character')[:points]
     
     (xml%'professions'/:skill).each_with_index do |skill,i|
-		  attributes["profession#{i+1}"] = Arsenal::Profession.new(skill)
-		end
-		
-		unless (xml%'talentSpecs').nil?
+      attributes["profession#{i+1}"] = Arsenal::Profession.new(skill)
+    end 
+
+    unless (xml%'talentSpecs').nil?
       (xml%'talentSpecs'/:talentSpec).each_with_index do |talentSpec,i|
         attributes["talentspec#{i}"] = Arsenal::TalentSpec.new(talentSpec)
       end
@@ -43,9 +43,9 @@ class Character < ActiveRecord::Base
     
     items = Array.new
     (xml%'items'/:item).each do |item|
-			items << Arsenal::Item.new(item)
-		end
-		attributes["items"] = items unless items.empty?
+      items << Arsenal::Item.new(item)
+    end
+    attributes["items"] = items unless items.empty?
     
     Event.create(:character_id => self.id, :action => "levelup", :content => attributes['level']) if !self.level.nil? && attributes['level'].to_i != self.level.to_i
     

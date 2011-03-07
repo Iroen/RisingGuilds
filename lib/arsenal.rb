@@ -1,42 +1,40 @@
 module Arsenal
   class TalentSpec
-  	attr_reader :trees,:active,:group,:icon,:prim
+    attr_reader :trees,:active,:group,:icon,:prim
 
-  	def initialize(elem)
-  		@trees = [elem[:treeOne].to_i, elem[:treeTwo].to_i ,elem[:treeThree].to_i]
-                @active = elem[:active].nil? ? false : true
-                @group  = elem[:group].to_i
-                @icon   = elem[:icon]
-                @prim   = elem[:prim]
-  	end
+    def initialize(elem)
+      @trees  = [elem[:treeOne].to_i, elem[:treeTwo].to_i ,elem[:treeThree].to_i]
+      @active = elem[:active].nil? ? false : true
+      @group  = elem[:group].to_i
+      @icon   = elem[:icon]
+      @prim   = elem[:prim]
+    end
   end
 
   class Profession
-  	attr_reader :key, :name, :value, :max, :id
-  	alias_method :to_s, :name
-  	alias_method :to_i, :value
+    attr_reader :key, :name, :value, :max, :id
+      alias_method :to_s, :name
+      alias_method :to_i, :value
 
-  	def initialize(elem)
-  		@id     = elem[:id]
-  		@key 	= elem[:key]
-  		@name 	= elem[:name]
-  		@value 	= elem[:value].to_i
-  		@max 	= elem[:max].to_i
-  	end
+    def initialize(elem)
+      @id    = elem[:id]
+      @value = elem[:value].to_i
+      @max   = elem[:max].to_i
+    end
   end
 
   class Item
-  	attr_reader :id, :icon, :level, :slot
+    attr_reader :id, :icon, :level, :slot
 
-  	def initialize(elem)
-  		@id	= elem[:id].to_i
-  		@icon 	= elem[:icon]
-  		@slot   = elem[:slot].to_i
-  	end
+    def initialize(elem)
+      @id   = elem[:id].to_i
+      @icon = elem[:icon]
+      @slot = elem[:slot].to_i
+    end
   	
-  	def level=(level)
-  	  @level = level
-	end
+    def level=(level)
+      @level = level
+    end
   end
   
   def self.get_character_xml(character)
