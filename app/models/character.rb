@@ -37,7 +37,7 @@ class Character < ActiveRecord::Base
 
     unless (xml%'talentSpecs').nil?
       (xml%'talentSpecs'/:talentSpec).each_with_index do |talentSpec,i|
-        attributes["talentspec#{i}"] = Arsenal::TalentSpec.new(talentSpec)
+        attributes["talentspec#{i+1}"] = Arsenal::TalentSpec.new(talentSpec)
       end
     end
     
